@@ -23,10 +23,10 @@ function divide (num1, num2){
 // console.log(multiply(1,10));
 // console.log(divide(1,10));
 
-let number1 = 10;
-let number2 = 1;
-let operator;
-let displayValue = "";
+let number1 = 0;
+let number2 = 0;
+let operation;
+let displayValue = 0;
 
 // Operate 2 numbers with the operator and return the result
 function operate (operator, num1, num2){
@@ -67,7 +67,26 @@ const operands = document.querySelectorAll(".operand");
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
     display.innerHTML += operand.value;
-    displayValue = display.innerHTML;
-    console.log(displayValue);
+    displayValue = parseInt(display.innerHTML);
   });
+});
+
+// Selects the operators and add a event when you click on them
+//  save the number in number1 (variable), clean the display and 
+//  save the operator in operation (variable)
+const operators = document.querySelectorAll(".operator");
+operators.forEach((operator) => {
+  operator.addEventListener("click", () => {
+    number1 = displayValue;
+    display.innerHTML = "";
+    operation = operator.value;
+  });
+});
+
+// When the user clicks on the equal, save the number in number2 (variable)
+//  and show the solution in the display
+const equal = document.querySelector("#equal");
+equal.addEventListener("click", () => {
+  number2 = displayValue;
+  display.innerHTML = operate(operation, number1, number2);
 });
