@@ -37,7 +37,7 @@
 
 /* Display value (display/screen) */
 
-#display-value {
+#display {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;

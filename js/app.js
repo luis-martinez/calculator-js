@@ -26,6 +26,7 @@ function divide (num1, num2){
 let number1 = 10;
 let number2 = 1;
 let operator;
+let displayValue = "";
 
 // Operate 2 numbers with the operator and return the result
 function operate (operator, num1, num2){
@@ -50,8 +51,23 @@ function operate (operator, num1, num2){
   return solution;
 }
 
-console.log(operate("_", number1, number2));
+// console.log(operate("_", number1, number2));
 console.log(operate("+", number1, number2));
 console.log(operate("-", number1, number2));
 console.log(operate("*", number1, number2));
 console.log(operate("/", number1, number2));
+
+// Selects the display
+let display = document.querySelector("#display");
+display.innerHTML = "";
+
+// Selects the operands (numbers) and add a event when you clicked on them
+//  Show the value on the display and saved in a variable
+const operands = document.querySelectorAll(".operand");
+operands.forEach((operand) => {
+  operand.addEventListener("click", () => {
+    display.innerHTML += operand.value;
+    displayValue = display.innerHTML;
+    console.log(displayValue);
+  });
+});
