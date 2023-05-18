@@ -18,15 +18,12 @@ function divide (num1, num2){
   return num1 / num2;
 }
 
-// console.log(add(1,10));
-// console.log(subtract(1,10));
-// console.log(multiply(1,10));
-// console.log(divide(1,10));
-
-let number1 = 0;
-let number2 = 0;
+let number = 0;
 let operation;
-let displayValue = 0;
+let total = 0;
+let firstNumber = true;
+let firstOperator = true;
+let gotTotal = false;
 
 // Operate 2 numbers with the operator and return the result
 function operate (operator, num1, num2){
@@ -51,12 +48,6 @@ function operate (operator, num1, num2){
   return solution;
 }
 
-// console.log(operate("_", number1, number2));
-console.log(operate("+", number1, number2));
-console.log(operate("-", number1, number2));
-console.log(operate("*", number1, number2));
-console.log(operate("/", number1, number2));
-
 // Selects the display
 let display = document.querySelector("#display");
 display.innerHTML = "";
@@ -66,8 +57,29 @@ display.innerHTML = "";
 const operands = document.querySelectorAll(".operand");
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
-    display.innerHTML += operand.value;
-    displayValue = parseInt(display.innerHTML);
+    // display.innerHTML += operand.value;
+    // number = parseInt(display.innerHTML);
+
+    if (firstNumber) {
+      display.innerHTML = "";
+      display.innerHTML += operand.value;
+      number = parseInt(display.innerHTML);
+      firstNumber = false;
+    } else {
+      if (gotTotal) {
+        display.innerHTML = operand.value;
+        number = parseInt(display.innerHTML);
+        gotTotal = false;
+      } else {
+        display.innerHTML += operand.value;
+        number = parseInt(display.innerHTML);
+      }
+      // display.innerHTML += operand.value;
+      // number = parseInt(display.innerHTML);
+    }
+    operators.forEach((operator) => {
+      operator.style.backgroundColor = "#EFEFEF";
+    });
   });
 });
 
@@ -77,9 +89,23 @@ operands.forEach((operand) => {
 const operators = document.querySelectorAll(".operator");
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
-    number1 = displayValue;
-    display.innerHTML = "";
-    operation = operator.value;
+    // number = displayValue;
+    // display.innerHTML = "";
+    // operation = operator.value;
+
+    if (firstOperator) {
+      total = number;
+      display.innerHTML = total;
+      firstOperator = false;
+      gotTotal = true;
+      operation = operator.value;
+    } else {
+      total = operate(operation, total, number);
+      display.innerHTML = total;
+      gotTotal = true;
+      operation = operator.value;
+    }
+    operator.style.backgroundColor = "#B4E4FF";
   });
 });
 
@@ -87,6 +113,10 @@ operators.forEach((operator) => {
 //  and show the solution in the display
 const equal = document.querySelector("#equal");
 equal.addEventListener("click", () => {
-  number2 = displayValue;
-  display.innerHTML = operate(operation, number1, number2);
+  display.innerHTML = operate(operation, total, number);
+  firstNumber = true;
+  firstOperator = true;
+  gotTotal = false;
+  number = 0;
+  total = 0;
 });
