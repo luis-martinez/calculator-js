@@ -85,6 +85,10 @@ operands.forEach((operand) => {
         number = Number(display.innerHTML);
         gotTotal = false;
       } else {
+        console.log("Add number");
+        if (number === 0) {
+          display.innerHTML = "";
+        }
         display.innerHTML += operand.value;
         number = Number(display.innerHTML);
       }
@@ -158,4 +162,13 @@ clear.addEventListener("click", () => {
 const dot = document.querySelector("#dot");
 dot.addEventListener("click", () => {
   dot.disabled = true;
+});
+
+
+const del = document.querySelector("#delete");
+del.addEventListener("click", () => {
+  // number = Number(number.toString.slice(0, -1));
+  let aux = number.toString();
+  number = Number(aux.slice(0, -1));
+  (number === 0) ? display.innerHTML = 0 : display.innerHTML = number;
 });
