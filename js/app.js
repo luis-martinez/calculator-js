@@ -1,25 +1,34 @@
 // Adds 2 numbers
 function add (num1, num2){
-  return num1 + num2;
+  return myRound(num1 + num2, 5);
 }
 
 // Subtract 2 numbers
 function subtract (num1, num2){
-  return num1 - num2;
+  return myRound(num1 - num2, 5);
 }
 
 // Multiply 2 numbers
 function multiply (num1, num2){
-  return num1 * num2;
+  return myRound(num1 * num2, 5);
 }
 
 // Divide 2 numbers
 function divide (num1, num2){
-  return num1 / num2;
+  return myRound(num1 / num2, 5);
+}
+
+// Percentage 2 numbers
+function percentage (num) {
+  return myRound(num / 100, 5);
+}
+
+function myRound (number, decimals){
+  return +(Math.round(+(number.toFixed(decimals) + "e+" + decimals)) + "e-" + decimals);
 }
 
 let number = 0;
-let operation;
+let operation = "";
 let total = 0;
 let firstNumber = true;
 let firstOperator = true;
@@ -41,12 +50,16 @@ function operate (operator, num1, num2){
     case "/":
       solution = divide(num1, num2);
       break;
+    case "%":
+      solution = percentage(num1);
+      break;
     default:
       alert(`Not valid operator for ${operator}`);
       break;
   }
   return solution;
 }
+
 
 // Selects the display
 let display = document.querySelector("#display");
@@ -63,16 +76,16 @@ operands.forEach((operand) => {
     if (firstNumber) {
       display.innerHTML = "";
       display.innerHTML += operand.value;
-      number = parseInt(display.innerHTML);
+      number = Number(display.innerHTML);
       firstNumber = false;
     } else {
       if (gotTotal) {
         display.innerHTML = operand.value;
-        number = parseInt(display.innerHTML);
+        number = Number(display.innerHTML);
         gotTotal = false;
       } else {
         display.innerHTML += operand.value;
-        number = parseInt(display.innerHTML);
+        number = Number(display.innerHTML);
       }
       // display.innerHTML += operand.value;
       // number = parseInt(display.innerHTML);
@@ -119,4 +132,8 @@ equal.addEventListener("click", () => {
   gotTotal = false;
   number = 0;
   total = 0;
+  let buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.style.backgroundColor = "#EFEFEF";
+  });
 });
