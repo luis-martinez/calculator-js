@@ -120,6 +120,7 @@ operators.forEach((operator) => {
       operation = operator.value;
     }
     operator.style.backgroundColor = "#B4E4FF";
+    dot.disabled = false;
   });
 });
 
@@ -134,6 +135,7 @@ equal.addEventListener("click", () => {
   number = 0;
   total = 0;
   operation = "";
+  dot.disabled = false;
   let buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
     button.style.backgroundColor = "#EFEFEF";
@@ -149,4 +151,11 @@ clear.addEventListener("click", () => {
   firstOperator = true;
   gotTotal = false;
   display.innerHTML = "";
+  dot.disabled = false;
+});
+
+
+const dot = document.querySelector("#dot");
+dot.addEventListener("click", () => {
+  dot.disabled = true;
 });

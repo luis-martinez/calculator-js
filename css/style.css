@@ -64,6 +64,10 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 #clear:hover {
   background-color: var(--clear-delete-color);
 }
