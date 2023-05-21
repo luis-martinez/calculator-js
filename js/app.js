@@ -54,7 +54,8 @@ function operate (operator, num1, num2){
       solution = percentage(num1);
       break;
     default:
-      alert(`Not valid operator for ${operator}`);
+      // alert(`Not valid operator for ${operator}`);
+      solution = "Error";
       break;
   }
   return solution;
@@ -132,6 +133,7 @@ equal.addEventListener("click", () => {
   gotTotal = false;
   number = 0;
   total = 0;
+  operation = "";
   let buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
     button.style.backgroundColor = "#EFEFEF";
