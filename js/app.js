@@ -139,3 +139,14 @@ equal.addEventListener("click", () => {
     button.style.backgroundColor = "#EFEFEF";
   });
 });
+
+const clear = document.querySelector("#clear");
+clear.addEventListener("click", () => {
+  number = 0;
+  operation = "";
+  total = 0;
+  firstNumber = true;
+  firstOperator = true;
+  gotTotal = false;
+  display.innerHTML = "";
+});
