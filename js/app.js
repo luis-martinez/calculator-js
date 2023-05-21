@@ -15,7 +15,7 @@ function multiply (num1, num2){
 
 // Divide 2 numbers
 function divide (num1, num2){
-  return myRound(num1 / num2, 5);
+  return (num2 !== 0) ?  myRound(num1 / num2, 5) : "Error";
 }
 
 // Percentage 2 numbers
