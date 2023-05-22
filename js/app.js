@@ -1,40 +1,59 @@
+// Initialize variables
+//  Number display on screen
+let number = 0;
+// Operator
+let operation = "";
+// Total of the operation
+let total = 0;
+// Introduced the first number
+let firstNumber = true;
+// Introduced the first operator
+let firstOperator = true;
+// If we have the total of the operation
+let gotTotal = false;
+
+//Initialize the calculator
+function initializeCalculator() {
+  number = 0;
+  operation = "";
+  total = 0;
+  firstNumber = true;
+  firstOperator = true;
+  gotTotal = false;
+  dot.disabled = false;
+}
+
+// Round a number with default amount of decimals if it is not provided
+function myRound (number, decimals = 5){
+  return +(Math.round(+(number.toFixed(decimals) + "e+" + decimals)) + "e-" + decimals);
+}
+
 // Adds 2 numbers
 function add (num1, num2){
-  return myRound(num1 + num2, 5);
+  return myRound(num1 + num2);
 }
 
 // Subtract 2 numbers
 function subtract (num1, num2){
-  return myRound(num1 - num2, 5);
+  return myRound(num1 - num2);
 }
 
 // Multiply 2 numbers
 function multiply (num1, num2){
-  return myRound(num1 * num2, 5);
+  return myRound(num1 * num2);
 }
 
 // Divide 2 numbers
 function divide (num1, num2){
-  return (num2 !== 0) ?  myRound(num1 / num2, 5) : "Error";
+  return (num2 !== 0) ?  myRound(num1 / num2) : "Error";
 }
 
 // Percentage 2 numbers
 function percentage (num) {
-  return myRound(num / 100, 5);
+  return myRound(num / 100);
 }
 
-function myRound (number, decimals){
-  return +(Math.round(+(number.toFixed(decimals) + "e+" + decimals)) + "e-" + decimals);
-}
-
-let number = 0;
-let operation = "";
-let total = 0;
-let firstNumber = true;
-let firstOperator = true;
-let gotTotal = false;
-
-// Operate 2 numbers with the operator and return the result
+// Operate 2 numbers, and return the result
 function operate (operator, num1, num2){
   let solution = 0;
   switch (operator) {
@@ -61,114 +80,106 @@ function operate (operator, num1, num2){
   return solution;
 }
 
-
 // Selects the display
 let display = document.querySelector("#display");
 display.innerHTML = "";
 
-// Selects the operands (numbers) and add a event when you clicked on them
+// Reset the buttons to their initial background color values
+function resetButtonsColor(){
+  let buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.style.backgroundColor = "#EFEFEF";
+  });
+}
+
+// Selects the operands (numbers) and add a event when you clicked on them.
 //  Show the value on the display and saved in a variable
 const operands = document.querySelectorAll(".operand");
 operands.forEach((operand) => {
   operand.addEventListener("click", () => {
-    // display.innerHTML += operand.value;
-    // number = parseInt(display.innerHTML);
-
     if (firstNumber) {
       display.innerHTML = "";
       display.innerHTML += operand.value;
-      number = Number(display.innerHTML);
       firstNumber = false;
     } else {
+      // If we are done adding numbers
       if (gotTotal) {
         display.innerHTML = operand.value;
-        number = Number(display.innerHTML);
         gotTotal = false;
       } else {
-        console.log("Add number");
+        // We are adding numbers
+        // If we delete all the numbers
         if (number === 0) {
           display.innerHTML = "";
         }
         display.innerHTML += operand.value;
-        number = Number(display.innerHTML);
       }
-      // display.innerHTML += operand.value;
-      // number = parseInt(display.innerHTML);
     }
-    operators.forEach((operator) => {
-      operator.style.backgroundColor = "#EFEFEF";
-    });
+    number = Number(display.innerHTML);
+    // Reset the buttons to their initial background color values
+    resetButtonsColor();
   });
 });
 
-// Selects the operators and add a event when you click on them
-//  save the number in number1 (variable), clean the display and 
+// Selects the operators and add a event when you click on them,
+//  save the number in number (variable), clean the display, and 
 //  save the operator in operation (variable)
 const operators = document.querySelectorAll(".operator");
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
-    // number = displayValue;
-    // display.innerHTML = "";
-    // operation = operator.value;
-
+    // If it's the first operator
     if (firstOperator) {
       total = number;
-      display.innerHTML = total;
       firstOperator = false;
-      gotTotal = true;
-      operation = operator.value;
     } else {
       total = operate(operation, total, number);
-      display.innerHTML = total;
-      gotTotal = true;
-      operation = operator.value;
     }
+    display.innerHTML = total;
+    operation = operator.value;
+    gotTotal = true;
     operator.style.backgroundColor = "#B4E4FF";
     dot.disabled = false;
   });
 });
 
-// When the user clicks on the equal, save the number in number2 (variable)
+// When the user clicks on the "=" button, save the number in number (variable)
 //  and show the solution in the display
 const equal = document.querySelector("#equal");
 equal.addEventListener("click", () => {
   display.innerHTML = operate(operation, total, number);
-  firstNumber = true;
-  firstOperator = true;
-  gotTotal = false;
-  number = 0;
-  total = 0;
-  operation = "";
-  dot.disabled = false;
-  let buttons = document.querySelectorAll("button");
-  buttons.forEach((button) => {
-    button.style.backgroundColor = "#EFEFEF";
-  });
+  // Initialize the calculator
+  initializeCalculator();
+  // Reset the buttons to their initial background color values
+  resetButtonsColor();
 });
 
+// When the user clicks on "AC" button,
+//  initialize the calculator
 const clear = document.querySelector("#clear");
 clear.addEventListener("click", () => {
-  number = 0;
-  operation = "";
-  total = 0;
-  firstNumber = true;
-  firstOperator = true;
-  gotTotal = false;
   display.innerHTML = "";
-  dot.disabled = false;
+  initializeCalculator();
 });
 
-
+// When the user clicks "." button,
+//  wants to add decimals to the number,
+//  prevents add more dots
 const dot = document.querySelector("#dot");
 dot.addEventListener("click", () => {
   dot.disabled = true;
 });
 
-
+// When the user clicks "DEL" button,
+//  deletes a digit (number or dot)
 const del = document.querySelector("#delete");
 del.addEventListener("click", () => {
-  // number = Number(number.toString.slice(0, -1));
-  let aux = number.toString();
-  number = Number(aux.slice(0, -1));
+  // Converts the number to string
+  let auxNumber = number.toString();
+  // Delete the last character of the string (number), 
+  //  and converts into a number
+  number = Number(auxNumber.slice(0, -1));
+  // If the last digit is 0
+  //  then displays 0
+  //  else displays the rest of the number
   (number === 0) ? display.innerHTML = 0 : display.innerHTML = number;
 });
